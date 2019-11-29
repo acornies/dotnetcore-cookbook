@@ -16,8 +16,16 @@ directory '/opt/dotnet' do
   recursive true
 end
 
-tar_extract node['dotnetcore']['package']['tar'] do
-  target_dir '/opt/dotnet'
+if node['dotnetcore']['package']['version']
+  creates_guard = "/opt/dotnet/shared/Microsoft.NETCore.App/#{node['dotnetcore']['package']['version']}"
+  tar_extract node['dotnetcore']['package']['tar'] do
+    target_dir '/opt/dotnet'
+    creates creates_guard
+  end
+else
+  tar_extract node['dotnetcore']['package']['tar'] do
+    target_dir '/opt/dotnet'
+  end
 end
 
 link '/usr/bin/dotnet' do
