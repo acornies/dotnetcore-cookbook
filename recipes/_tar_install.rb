@@ -19,6 +19,7 @@ end
 tar_extract node['dotnetcore']['package']['tar'] do
   target_dir '/opt/dotnet'
   creates "/opt/dotnet/shared/Microsoft.NETCore.App/#{node['dotnetcore']['package']['version']}" if node['dotnetcore']['package']['version']
+  checksum node['dotnetcore']['package']['checksum'] if node['dotnetcore']['package']['checksum']
 end
 
 link '/usr/bin/dotnet' do
